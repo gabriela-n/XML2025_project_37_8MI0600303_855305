@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <!-- Корен елемент -->
+    <xs:element name="catalog">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="regions" type="RegionsType"/>
+                <xs:element name="areas" type="AreasType"/>
+                <xs:element name="fortresses" type="FortressesType"/>
+            </xs:sequence>
+        </xs:complexType>
+        
+        <!-- Ключове и референции -->
+        <xs:key name="regionKey">
+            <xs:selector xpath="regions/region"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
+        
+        <xs:key name="areaKey">
+            <xs:selector xpath="areas/area"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
+        
+        <xs:keyref name="areaRegionRef" refer="regionKey">
+            <xs:selector xpath="areas/area"/>
+            <xs:field xpath="@regionRef"/>
+        </xs:keyref>
+        
+        <xs:keyref name="fortressAreaRef" refer="areaKey">
+            <xs:selector xpath="fortresses/fortress/location"/>
+            <xs:field xpath="areaRef"/>
+        </xs:keyref>
+        
+        <xs:key name="fortressKey">
+            <xs:selector xpath="fortresses/fortress"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
+    </xs:element>
+    
+    <!-- Тип за колекция от региони -->
+    <xs:complexType name="RegionsType">
+        <xs:sequence>
+            <xs:element name="region" type="RegionType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Тип за регион -->
+    <xs:complexType name="RegionType">
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    <!-- Тип за колекция от области -->
+    <xs:complexType name="AreasType">
+        <xs:sequence>
+            <xs:element name="area" type="AreaType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Тип за област -->
+    <xs:complexType name="AreaType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Име на областта</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+        <xs:attribute name="regionRef" type="xs:IDREF" use="required"/>
+    </xs:complexType>
+    
+    <!-- Тип за колекция от крепости -->
+    <xs:complexType name="FortressesType">
+        <xs:sequence>
+            <xs:element name="fortress" type="FortressType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Тип за крепост -->
+    <xs:complexType name="FortressType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Име на крепостта</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="type" type="FortressTypeEnum">
+                <xs:annotation>
+                    <xs:documentation>Тип на крепостта според произход</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="subtype" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Подтип/категория на крепостта</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="location" type="LocationType"/>
+            <xs:element name="period" type="PeriodType"/>
+            <xs:element name="preservation-status" type="PreservationStatusEnum"/>
+            <xs:element name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Подробно описание на крепостта</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="features" type="FeaturesType"/>
+            <xs:element name="visitor-info" type="VisitorInfoType"/>
+            <xs:element name="image" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>XML Entity за изображение</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+    </xs:complexType>
+    
+    <!-- Изброен тип за видове крепости -->
+    <xs:simpleType name="FortressTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Българска"/>
+            <xs:enumeration value="Римска"/>
+            <xs:enumeration value="Византийска"/>
+            <xs:enumeration value="Тракийска"/>
+            <xs:enumeration value="Османска"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <!-- Изброен тип за състояние на запазеност -->
+    <xs:simpleType name="PreservationStatusEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Отлично запазена"/>
+            <xs:enumeration value="Добре запазена"/>
+            <xs:enumeration value="Частично запазена"/>
+            <xs:enumeration value="Частично възстановена"/>
+            <xs:enumeration value="Археологически останки"/>
+            <xs:enumeration value="Археологически обект"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <!-- Тип за местоположение -->
+    <xs:complexType name="LocationType">
+        <xs:sequence>
+            <xs:element name="areaRef" type="xs:IDREF">
+                <xs:annotation>
+                    <xs:documentation>Референция към област</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="city" type="xs:string"/>
+            <xs:element name="coordinates" type="CoordinatesType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Тип за координати -->
+    <xs:complexType name="CoordinatesType">
+        <xs:sequence>
+            <xs:element name="latitude">
+                <xs:simpleType>
+                    <xs:restriction base="xs:decimal">
+                        <xs:minInclusive value="41.0"/>
+                        <xs:maxInclusive value="44.5"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="longitude">
+                <xs:simpleType>
+                    <xs:restriction base="xs:decimal">
+                        <xs:minInclusive value="22.0"/>
+                        <xs:maxInclusive value="28.5"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Тип за исторически период -->
+    <xs:complexType name="PeriodType">
+        <xs:sequence>
+            <xs:element name="built-era" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Епоха на построяване</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="main-use" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Период на основно използване</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Тип за характеристики -->
+    <xs:complexType name="FeaturesType">
+        <xs:sequence>
+            <xs:element name="feature" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Тип за информация за посетители -->
+    <xs:complexType name="VisitorInfoType">
+        <xs:sequence>
+            <xs:element name="entrance-fee" type="EntranceFeeType"/>
+            <xs:element name="working-hours" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Тип за входна такса -->
+    <xs:complexType name="EntranceFeeType">
+        <xs:sequence>
+            <xs:element name="amount" type="AmountType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Тип за сума -->
+    <xs:complexType name="AmountType">
+        <xs:simpleContent>
+            <xs:extension base="xs:decimal">
+                <xs:attribute name="currency" type="CurrencyEnum" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <!-- Изброен тип за валути -->
+    <xs:simpleType name="CurrencyEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BGN"/>
+            <xs:enumeration value="EUR"/>
+            <xs:enumeration value="USD"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+</xs:schema>
