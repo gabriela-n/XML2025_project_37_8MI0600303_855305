@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="fortresses.xsl"?>
 
-<!DOCTYPE catalog [
-    <!ENTITY tsarevets SYSTEM "images/tsarevets.jpg">
-    <!ENTITY babavida SYSTEM "images/baba-vida.jpg">
-    <!ENTITY asenova SYSTEM "images/asenova.jpg">
-    <!ENTITY belogradchik SYSTEM "images/belogradchick.jpg">
-    <!ENTITY trapezitsa SYSTEM "images/trapezitca.jpg">
-    <!ENTITY hisarya SYSTEM "images/hisarya.jpg">
-    <!ENTITY perperikon SYSTEM "images/perperikon.jpg">
-    <!ENTITY rusokastro SYSTEM "images/rusokastro.jpg">
-    <!ENTITY shumen SYSTEM "images/shumen.jpg">
-]>
 <catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="fortresses.xsd">
     
@@ -67,6 +56,7 @@
             <location>
                 <areaRef>BG321</areaRef>
                 <city>Велико Търново</city>
+                <region>Северен централен регион</region>
                 <coordinates>
                     <latitude>43.0814</latitude>
                     <longitude>25.6519</longitude>
@@ -93,7 +83,7 @@
                 </entrance-fee>
                 <working-hours>09:00-18:00</working-hours>
             </visitor-info>
-            <image>&tsarevets;</image>
+            <image>tsarevets.jpg</image>
         </fortress>
         
         <!-- Баба Вида -->
@@ -104,6 +94,7 @@
             <location>
                 <areaRef>BG311</areaRef>
                 <city>Видин</city>
+                <region>Северозападен регион</region>
                 <coordinates>
                     <latitude>43.9909</latitude>
                     <longitude>22.8711</longitude>
@@ -130,7 +121,7 @@
                 </entrance-fee>
                 <working-hours>09:00-17:00</working-hours>
             </visitor-info>
-            <image>&babavida;</image>
+            <image>baba-vida.jpg</image>
         </fortress>
         
         <!-- Асенова крепост -->
@@ -141,6 +132,7 @@
             <location>
                 <areaRef>BG421</areaRef>
                 <city>Асеновград</city>
+                <region>Южен централен регион</region>
                 <coordinates>
                     <latitude>41.9831</latitude>
                     <longitude>24.8731</longitude>
@@ -167,7 +159,7 @@
                 </entrance-fee>
                 <working-hours>08:30-17:30</working-hours>
             </visitor-info>
-            <image>&asenova;</image>
+            <image>asenova.jpg</image>
         </fortress>
         
         <!-- Белоградчишка крепост -->
@@ -178,6 +170,7 @@
             <location>
                 <areaRef>BG311</areaRef>
                 <city>Белоградчик</city>
+                <region>Северозападен регион</region>
                 <coordinates>
                     <latitude>43.6272</latitude>
                     <longitude>22.6850</longitude>
@@ -204,7 +197,7 @@
                 </entrance-fee>
                 <working-hours>09:00-18:00</working-hours>
             </visitor-info>
-            <image>&belogradchik;</image>
+            <image>belogradchick.jpg</image>
         </fortress>
         
         <!-- Трапезица -->
@@ -215,6 +208,7 @@
             <location>
                 <areaRef>BG321</areaRef>
                 <city>Велико Търново</city>
+                <region>Северен централен регион</region>
                 <coordinates>
                     <latitude>43.0828</latitude>
                     <longitude>25.6469</longitude>
@@ -241,7 +235,7 @@
                 </entrance-fee>
                 <working-hours>свободен достъп</working-hours>
             </visitor-info>
-            <image>&trapezitsa;</image>
+            <image>trapezitca.jpg</image>
         </fortress>
         
         <!-- Хисаря (Ловеч) -->
@@ -252,6 +246,7 @@
             <location>
                 <areaRef>BG315</areaRef>
                 <city>Ловеч</city>
+                <region>Северозападен регион</region>
                 <coordinates>
                     <latitude>43.1373</latitude>
                     <longitude>24.7144</longitude>
@@ -278,7 +273,7 @@
                 </entrance-fee>
                 <working-hours>свободен достъп</working-hours>
             </visitor-info>
-            <image>&hisarya;</image>
+            <image>hisarya.jpg</image>
         </fortress>
         
         <!-- Перперикон -->
@@ -289,6 +284,7 @@
             <location>
                 <areaRef>BG425</areaRef>
                 <city>село Горно Нанево</city>
+                <region>Южен централен регион</region>
                 <coordinates>
                     <latitude>41.4300</latitude>
                     <longitude>25.4706</longitude>
@@ -315,7 +311,7 @@
                 </entrance-fee>
                 <working-hours>09:00-18:00</working-hours>
             </visitor-info>
-            <image>&perperikon;</image>
+            <image>perperikon.jpg</image>
         </fortress>
         
         <!-- Русокастро -->
@@ -326,6 +322,7 @@
             <location>
                 <areaRef>BG341</areaRef>
                 <city>село Русокастро</city>
+                <region>Югоизточен регион</region>
                 <coordinates>
                     <latitude>42.5592</latitude>
                     <longitude>27.3258</longitude>
@@ -352,7 +349,7 @@
                 </entrance-fee>
                 <working-hours>свободен достъп</working-hours>
             </visitor-info>
-            <image>&rusokastro;</image>
+            <image>rusokastro.jpg</image>
         </fortress>
 
         <!-- Шуменска крепост -->
@@ -363,6 +360,7 @@
             <location>
                 <areaRef>BG333</areaRef>
                 <city>Шумен</city>
+                <region>Североизточен регион</region>
                 <coordinates>
                     <latitude>43.2888</latitude>
                     <longitude>26.9472</longitude>
@@ -389,7 +387,7 @@
                 </entrance-fee>
                 <working-hours>09:00-18:00</working-hours>
             </visitor-info>
-            <image>&shumen;</image>
+            <image>shumen.jpg</image>
         </fortress>
     </fortresses>
     
