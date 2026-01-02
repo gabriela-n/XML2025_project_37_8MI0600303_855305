@@ -36,7 +36,6 @@
       <section class="fortresses-section">
         <div id="fortressesGrid" class="fortresses-grid">
 
-          <!-- !!! Вот тут надо ПРАВИЛЬНЫЙ XPath под твой XML !!! -->
           <xsl:for-each select="/catalog//fortress">
             <article class="fortress-card"
                 data-id="{@id}"

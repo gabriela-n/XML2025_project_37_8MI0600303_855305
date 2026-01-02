@@ -1,15 +1,9 @@
-/* =========================
-   STATE
-========================= */
 let fortressCards = [];
 let mainMap = null;
 let mainMarkers = [];
 let currentFilter = null;
 let currentSort = null;
 
-/* =========================
-   XML FIELD MAPPING (поправишь под свой XML при необходимости)
-========================= */
 const XML_MAP = {
   fortressNode: ["fortress", "крепост", "item"],
 
@@ -35,12 +29,9 @@ settlement: ["city", "town", "settlement", "град"],
   featureItem: ["feature", "item", "li", "точка"],
 };
 
-/* =========================
-   HELPERS: XML
-========================= */
+
 function firstByTag(node, tagNames) {
   for (const t of tagNames) {
-    // attribute
     if (t.startsWith("@")) {
       const attr = t.slice(1);
       const v = node.getAttribute?.(attr);
@@ -48,7 +39,6 @@ function firstByTag(node, tagNames) {
       continue;
     }
 
-    // element
     const el = node.getElementsByTagName(t)[0];
     if (el && el.textContent && el.textContent.trim() !== "") return el.textContent.trim();
   }
@@ -60,7 +50,6 @@ function getFortressNodes(xmlDoc) {
     const nodes = Array.from(xmlDoc.getElementsByTagName(name));
     if (nodes.length) return nodes;
   }
-  // fallback: если структура другая — попробуем все элементы второго уровня
   const root = xmlDoc.documentElement;
   return root ? Array.from(root.children) : [];
 }
@@ -84,7 +73,6 @@ function toId(raw) {
 }
 
 function parseFeatures(node) {
-  // ищем контейнер с features
   let container = null;
   for (const t of XML_MAP.featureList) {
     const el = node.getElementsByTagName(t)[0];
@@ -92,7 +80,6 @@ function parseFeatures(node) {
   }
   if (!container) return [];
 
-  // items
   const items = [];
   for (const itTag of XML_MAP.featureItem) {
     const els = Array.from(container.getElementsByTagName(itTag));
@@ -105,9 +92,7 @@ function parseFeatures(node) {
   return items;
 }
 
-/* =========================
-   HELPERS: SAFE HTML
-========================= */
+
 function escapeHtml(str) {
   return String(str)
     .replaceAll("&", "&amp;")
@@ -122,13 +107,9 @@ function escapeAttr(str) {
 }
 
 function cssEscape(str) {
-  // минимум для data-id селектора
   return String(str).replaceAll('"', '\\"');
 }
 
-/* =========================
-   BOOT
-========================= */
 document.addEventListener("DOMContentLoaded", async () => {
   if (typeof L === "undefined") {
     console.error("Leaflet не загружен: проверьте подключение leaflet.js");
@@ -154,10 +135,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-/* =========================
-   POPUP BUTTON -> SCROLL
-   (event delegation)
-========================= */
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".popup-btn");
   if (!btn) return;
@@ -174,9 +151,6 @@ document.addEventListener("click", (e) => {
   scrollToFortress(id);
 }, true);
 
-/* =========================
-   LOAD + PARSE XML
-========================= */
 async function loadFortressesFromXML(url) {
   const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error(`HTTP ${res.status} при GET ${url}`);
@@ -231,13 +205,9 @@ async function loadFortressesFromXML(url) {
     };
   });
 
-  // отфильтруем мусорные записи без координат/имени при необходимости
   return list.filter(x => x.name && x.id);
 }
 
-/* =========================
-   RENDER HTML
-========================= */
 function renderFortresses(list) {
   const grid = document.getElementById("fortressesGrid");
   if (!grid) return;
@@ -322,7 +292,6 @@ function renderFilterTypes(list) {
 
   const types = Array.from(new Set(list.map(x => x.type).filter(Boolean)));
 
-  // если типы пустые — оставим дефолт
   const fallback = ["Българска", "Византийска", "Римска", "Тракийска"];
   const finalTypes = types.length ? types : fallback;
 
@@ -331,9 +300,6 @@ function renderFilterTypes(list) {
   ).join("");
 }
 
-/* =========================
-   MAPS + UI (твоя логика)
-========================= */
 function initMainMap() {
   const mapEl = document.getElementById("mainMap");
   if (!mapEl) {
