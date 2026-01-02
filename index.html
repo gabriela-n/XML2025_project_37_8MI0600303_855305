@@ -1,400 +1,122 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-    <meta charset="UTF-8">
-    <title>Каталог на крепостите в България</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-    <style>
-/* ================= RESET ================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+  <meta charset="UTF-8">
+  <title>Каталог на крепостите в България</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 
-body {
-    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-    background-color: #f4f6f8;
-    color: #333;
-    line-height: 1.6;
-}
+<link rel="stylesheet" href="./fortresses.css">
 
-/* ================= HEADER ================= */
-.site-header {
-    background: linear-gradient(135deg, #2c3e50, #34495e);
-    color: #fff;
-    padding: 2.5rem 1rem;
-    text-align: center;
-}
-
-.site-header h1 {
-    font-size: 2.4rem;
-    margin-bottom: 0.5rem;
-}
-
-.subtitle {
-    font-size: 1.1rem;
-    opacity: 0.9;
-}
-
-/* ================= MAIN ================= */
-.main-content {
-    max-width: 1400px;
-    margin: auto;
-    padding: 2rem 1rem;
-}
-
-/* ================= ГЛАВНА КАРТА ================= */
-.map-section {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 10px;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-.map-section h2 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
-}
-
-#mainMap {
-    border: 2px solid #ddd;
-}
-
-/* ================= КОНТРОЛИ ================= */
-.controls {
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-.controls h2 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-}
-
-/* Филтри по тип */
-.filter-types {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.filter-card {
-    background: #ecf0f1;
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-}
-
-.filter-card:hover {
-    background: #3498db;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
-}
-
-.filter-card.active {
-    background: #2c3e50;
-    color: #fff;
-    border-color: #2c3e50;
-}
-
-/* Сортиране */
-.sorting {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-}
-
-.sorting button {
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 6px;
-    background: #3498db;
-    color: #fff;
-    cursor: pointer;
-    font-size: 0.95rem;
-    transition: all 0.2s;
-    font-weight: 600;
-}
-
-.sorting button:hover {
-    background: #2980b9;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(41, 128, 185, 0.3);
-}
-
-/* ================= КРЕПОСТИ GRID ================= */
-.fortresses-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 2rem;
-}
-
-/* ================= FORTRESS CARD ================= */
-.fortress-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.fortress-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-}
-
-/* Снимка */
-.fortress-image {
-    width: 100%;
-    height: 220px;
-    background: #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.fortress-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Заглавие */
-.fortress-title {
-    padding: 1rem;
-    font-size: 1.4rem;
-    color: #2c3e50;
-}
-
-.fortress-card hr {
-    border: none;
-    height: 1px;
-    background: #ddd;
-    margin: 0 1rem;
-}
-
-/* Информационни кутии */
-.info-box,
-.status-box,
-.period-box,
-.visitor-box {
-    background: #f8f9fa;
-    margin: 0.8rem 1rem;
-    padding: 0.8rem;
-    border-radius: 6px;
-    font-size: 0.95rem;
-}
-
-.status-box span {
-    font-weight: bold;
-    color: #27ae60;
-}
-
-/* Описание */
-.description {
-    padding: 1rem;
-    font-size: 0.95rem;
-    text-align: justify;
-    line-height: 1.7;
-}
-
-/* Забележителности */
-.features {
-    padding: 0 1rem 1rem;
-}
-
-.features h3 {
-    margin-bottom: 0.5rem;
-    color: #2c3e50;
-    font-size: 1.1rem;
-}
-
-.features ul {
-    list-style: disc inside;
-}
-
-.features li {
-    margin-bottom: 0.3rem;
-}
-
-/* Информация за посетители */
-.visitor-box {
-    font-size: 0.9rem;
-}
-
-/* Карта на крепостта */
-.map-box {
-    padding: 1rem;
-    border-top: 1px solid #ddd;
-    background: #fafafa;
-}
-
-.map-box p {
-    margin-bottom: 0.5rem;
-    color: #555;
-}
-
-.map-placeholder {
-    margin-top: 0.5rem;
-    border-radius: 6px;
-    overflow: hidden;
-}
-
-/* ================= FOOTER ================= */
-.site-footer {
-    background: #2c3e50;
-    color: #fff;
-    text-align: center;
-    padding: 1.5rem 1rem;
-    margin-top: 3rem;
-    font-size: 0.9rem;
-}
-
-/* ================= RESPONSIVE ================= */
-@media (max-width: 900px) {
-    .filter-types {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 500px) {
-    .filter-types {
-        grid-template-columns: 1fr;
-    }
-
-    .site-header h1 {
-        font-size: 1.8rem;
-    }
-    
-    .map-section h2,
-    .controls h2 {
-        font-size: 1.4rem;
-    }
-}
-    </style>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="./fortresses.js" defer></script>
 </head>
+
 <body>
-    <!-- HEADER -->
-    <header class="site-header">
-        <h1>Каталог на крепостите в България</h1>
-        <p class="subtitle">Средновековни и древни крепости – семантичен уеб проект</p>
-    </header>
+  <header class="site-header">
+    <h1>Каталог на крепостите в България</h1>
+    <p class="subtitle">Средновековни и древни крепости – семантичен уеб проект</p>
+  </header>
 
-    <main class="main-content">
-        <!-- ГЛАВНА КАРТА -->
-        <section class="map-section">
-            <h2>Карта на всички крепости</h2>
-            <div id="mainMap" style="height: 500px; margin: 2rem 0; border-radius: 10px;"></div>
-        </section>
+  <main class="main-content">
+    <section class="map-section">
+      <h2>Карта на всички крепости</h2>
+      <div id="mainMap" style="height: 500px; margin: 2rem 0; border-radius: 10px;"></div>
+    </section>
 
-        <!-- КОНТРОЛИ: ФИЛТРИ И СОРТИРАНЕ -->
-        <section class="controls">
-            <h2>Сортиране и филтриране</h2>
-            
-            <!-- Филтри по тип -->
-            <div class="filter-types">
-                <div class="filter-card" data-type="Българска">Български</div>
-                <div class="filter-card" data-type="Византийска">Византийски</div>
-                <div class="filter-card" data-type="Римска">Римски</div>
-                <div class="filter-card" data-type="Тракийска">Тракийски</div>
-            </div>
+    <section class="controls">
+      <h2>Сортиране и филтриране</h2>
 
-            <!-- Сортиране -->
-            <div class="sorting">
-                <button data-sort="name">Азбучен ред</button>
-                <button data-sort="preservation">Запазеност</button>
-                <button data-sort="fee">Входна такса</button>
-                <button data-sort="type">Тип</button>
-            </div>
-        </section>
+      <div class="filter-types">
+        <div class="filter-card" data-type="Българска">Български</div>
+        <div class="filter-card" data-type="Византийска">Византийски</div>
+        <div class="filter-card" data-type="Римска">Римски</div>
+        <div class="filter-card" data-type="Тракийска">Тракийски</div>
+      </div>
 
-        <!-- КРЕПОСТИ -->
-        <section class="fortresses-section">
-            <div id="fortressesGrid" class="fortresses-grid">
-                
-                <!-- ЦАРЕВЕЦ -->
-                <article class="fortress-card" 
-                         data-type="Българска"
-                         data-name="Царевец"
-                         data-preservation="Частично възстановена"
-                         data-fee="6.00"
-                         data-lat="43.0814"
-                         data-lon="25.6519">
-                    
-                    <div class="fortress-image">🏰 Царевец</div>
-                    <h2 class="fortress-title">Царевец</h2>
-                    <hr>
+      <div class="sorting">
+        <button data-sort="name">Азбучен ред</button>
+        <button data-sort="preservation">Запазеност</button>
+        <button data-sort="fee">Входна такса</button>
+        <button data-sort="type">Тип</button>
+      </div>
+    </section>
 
-                    <div class="info-box">
-                        <p><strong>Тип:</strong> Българска</p>
-                        <p><strong>Регион:</strong> Северен централен регион</p>
-                        <p><strong>Област:</strong> Велико Търново</p>
-                        <p><strong>Град/Село:</strong> Велико Търново</p>
-                    </div>
+    <section class="fortresses-section">
+      <div id="fortressesGrid" class="fortresses-grid">
 
-                    <div class="status-box">
-                        <strong>Запазеност:</strong>
-                        <span>Частично възстановена</span>
-                    </div>
+        <article class="fortress-card"
+ data-id="f001"
+ data-type="Българска"
+ data-name="Царевец"
+ data-preservation="Частично възстановена"
+ data-fee="6.00"
+ data-lat="43.0814"
+ data-lon="25.6519">
+ 
+ <div class="fortress-image">
+ <img src="images/tsarevets.jpg" alt="Царевец">
+ </div>
+ 
+ <h2 class="fortress-title">Царевец</h2>
+ <hr>
+ 
+ <div class="info-box">
+ <p><strong>Тип:</strong> Българска</p>
+ <p><strong>Регион:</strong> Северен централен регион</p>
+ <p><strong>Област:</strong> Велико Търново</p>
+ <p><strong>Град/Село:</strong> Велико Търново</p>
+ </div>
+ 
+ <div class="status-box">
+ <strong>Запазеност:</strong>
+ <span>Частично възстановена</span>
+ </div>
+ 
+ <div class="period-box">
+ <p><strong>Епоха на построяване:</strong> Византийска епоха (V-VII век)</p>
+ <p><strong>Основна употреба:</strong> Второ българско царство (XII-XIV век)</p>
+ </div>
+ 
+ <section class="description">
+ Царевец е средновековна крепост във Велико Търново...
+ </section>
+ 
+ <section class="features">
+ <h3>Забележителности</h3>
+ <ul>
+ <li>Патриаршеска църква</li>
+ <li>Царски дворец</li>
+ <li>Крепостни стени</li>
+ <li>Балдуинова кула</li>
+ </ul>
+ </section>
+ 
+ <section class="visitor-box">
+ <p><strong>Такса:</strong> 6.00 лв</p>
+ <p><strong>Работно време:</strong> 09:00-18:00</p>
+ </section>
+ 
+ <section class="map-box">
+ <p><strong>Координати:</strong> 43.0814, 25.6519</p>
+ <div class="map-placeholder" data-lat="43.0814" data-lon="25.6519" data-name="Царевец"></div>
+ </section>
+ </article>
 
-                    <div class="period-box">
-                        <p><strong>Епоха на построяване:</strong> Византийска епоха (V-VII век)</p>
-                        <p><strong>Основна употреба:</strong> Второ българско царство (XII-XIV век)</p>
-                    </div>
-
-                    <section class="description">
-                        Царевец е средновековна крепост в Велико Търново, столица на Второто българско царство. Крепостта се намира на едноименния хълм и е била резиденция на българските царе и патриарси. Запазени са крепостните стени, порти и патриаршеската църква. Днес е музей под открито небе и символ на българската история.
-                    </section>
-
-                    <section class="features">
-                        <h3>Забележителности</h3>
-                        <ul>
-                            <li>Патриаршеска църква</li>
-                            <li>Царски дворец</li>
-                            <li>Крепостни стени с височина до 10 метра</li>
-                            <li>Балдуинова кула</li>
-                        </ul>
-                    </section>
-
-                    <section class="visitor-box">
-                        <p><strong>Такса:</strong> 6.00 лв (3.07 €)</p>
-                        <p><strong>Работно време:</strong> 09:00-18:00</p>
-                    </section>
-
-                    <section class="map-box">
-                        <p><strong>Координати:</strong> 43.0814, 25.6519</p>
-                        <div class="map-placeholder" data-lat="43.0814" data-lon="25.6519" data-name="Царевец"></div>
-                    </section>
-                </article>
 
                 <!-- БАБА VIDA -->
                 <article class="fortress-card" 
                          data-type="Българска"
+                         data-id="f002"
                          data-name="Баба Вида"
                          data-preservation="Отлично запазена"
                          data-fee="4.00"
                          data-lat="43.9909"
                          data-lon="22.8711">
                     
-                    <div class="fortress-image">🏰 Баба Вида</div>
+                    <div class="fortress-image">
+                        <img src="images/baba-vida.jpg" alt="Царевец">
+                    </div>
                     <h2 class="fortress-title">Баба Вида</h2>
                     <hr>
 
@@ -443,13 +165,16 @@ body {
                 <!-- АСЕНОВА КРЕПОСТ -->
                 <article class="fortress-card" 
                          data-type="Византийска"
+                         data-id="f003"
                          data-name="Асенова крепост"
                          data-preservation="Частично запазена"
                          data-fee="3.00"
                          data-lat="41.9831"
                          data-lon="24.8731">
                     
-                    <div class="fortress-image">🏰 Асенова крепост</div>
+                    <div class="fortress-image">
+                        <img src="images/asenova.jpg" alt="Царевец">
+                    </div>
                     <h2 class="fortress-title">Асенова крепост</h2>
                     <hr>
 
@@ -498,13 +223,16 @@ body {
                 <!-- БЕЛОГРАДЧИШКА КРЕПОСТ -->
                 <article class="fortress-card" 
                          data-type="Римска"
+                         data-id="f004"
                          data-name="Белоградчишка крепост"
                          data-preservation="Добре запазена"
                          data-fee="5.00"
                          data-lat="43.6272"
                          data-lon="22.6850">
                     
-                    <div class="fortress-image">🏰 Белоградчишка крепост</div>
+                    <div class="fortress-image">
+                        <img src="images/belogradchick.jpg" alt="Царевец">
+                    </div>
                     <h2 class="fortress-title">Белоградчишка крепост</h2>
                     <hr>
 
@@ -553,13 +281,16 @@ body {
                 <!-- ТРАПЕЗИЦА -->
                 <article class="fortress-card" 
                          data-type="Българска"
+                         data-id="f005"
                          data-name="Трапезица"
                          data-preservation="Археологически останки"
                          data-fee="2.00"
-                         data-lat="43.0828"
-                         data-lon="25.6469">
+                         data-lat="42.5055"
+                         data-lon="24.7067">
                     
-                    <div class="fortress-image">🏰 Трапезица</div>
+                    <div class="fortress-image">
+                        <img src="images/trapezitca.jpg" alt="Царевец">
+                    </div>
                     <h2 class="fortress-title">Трапезица</h2>
                     <hr>
 
@@ -600,7 +331,7 @@ body {
                     </section>
 
                     <section class="map-box">
-                        <p><strong>Координати:</strong> 43.0828, 25.6469</p>
+                        <p><strong>Координати:</strong> 42.5055, 24.7067</p>
                         <div class="map-placeholder" data-lat="43.0828" data-lon="25.6469" data-name="Трапезица"></div>
                     </section>
                 </article>
@@ -608,13 +339,16 @@ body {
                 <!-- ХИСАРЯ -->
                 <article class="fortress-card" 
                          data-type="Византийска"
+                         data-id="f006"
                          data-name="Хисаря"
                          data-preservation="Частично запазена"
                          data-fee="0.00"
-                         data-lat="43.1373"
-                         data-lon="24.7144">
+                         data-lat="42.5055"
+                         data-lon="24.7067">
                     
-                    <div class="fortress-image">🏰 Хисаря</div>
+                    <div class="fortress-image">
+                        <img src="images/hisarya.jpg" alt="Царевец">
+                    </div>
                     <h2 class="fortress-title">Хисаря</h2>
                     <hr>
 
@@ -655,8 +389,8 @@ body {
                     </section>
 
                     <section class="map-box">
-                        <p><strong>Координати:</strong> 43.1373, 24.7144</p>
-                        <div class="map-placeholder" data-lat="43.1373" data-lon="24.7144" data-name="Хисаря"></div>
+                        <p><strong>Координати:</strong> 42.5055, 24.7067</p>
+                        <div class="map-placeholder" data-lat="42.5055" data-lon="24.7067" data-name="Хисаря"></div>
                     </section>
                 </article>
 
@@ -664,12 +398,15 @@ body {
                 <article class="fortress-card" 
                          data-type="Тракийска"
                          data-name="Перперикон"
+                         data-id="f007"
                          data-preservation="Археологически обект"
                          data-fee="4.00"
                          data-lat="41.4300"
                          data-lon="25.4706">
                     
-                    <div class="fortress-image">🏰 Перперикон</div>
+                    <div class="fortress-image">
+                        <img src="images/perperikon.jpg" alt="Царевец">
+                    </div>
                     <h2 class="fortress-title">Перперикон</h2>
                     <hr>
 
@@ -718,13 +455,16 @@ body {
                 <!-- РУСОКАСТРО -->
                 <article class="fortress-card" 
                          data-type="Византийска"
+                         data-id="f008"
                          data-name="Русокастро"
                          data-preservation="Археологически останки"
                          data-fee="0.00"
                          data-lat="42.5592"
                          data-lon="27.3258">
                     
-                    <div class="fortress-image">🏰 Русокастро</div>
+                    <div class="fortress-image">
+                        <img src="images/rusokastro.jpg" alt="Русокастро">
+                    </div>
                     <h2 class="fortress-title">Русокастро</h2>
                     <hr>
 
@@ -770,198 +510,67 @@ body {
                     </section>
                 </article>
 
-            </div>
-        </section>
-    </main>
+                <article class="fortress-card" 
+                         data-type="Българска"
+                         data-id="f009"
+                         data-name="Шуменска крепост"
+                         data-preservation="Частично възстановена"
+                         data-fee="0.00"
+                         data-lat="43.2888"
+                         data-lon="26.9472">
+                    
+                    <div class="fortress-image">
+                        <img src="images/shumen.jpg" alt="Шуменска Крепост">
+                    </div>
+                    <h2 class="fortress-title">Шуменска Крепост</h2>
+                    <hr>
 
-    <!-- FOOTER -->
-    <footer class="site-footer">
-        <p>
-            © 2026 Курсов проект по XML технологии за семантичен Уеб<br>
-            Автори: Габриела Николова, Марк Кружков<br>
-            СУ „Св. Климент Охридски" – ФМИ
-        </p>
-    </footer>
+                    <div class="info-box">
+                        <p><strong>Тип:</strong> Българска</p>
+                        <p><strong>Регион:</strong> Североизточен регион</p>
+                        <p><strong>Област:</strong> Шумен</p>
+                        <p><strong>Град/Село:</strong> град Шумен</p>
+                    </div>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-// ===============================================
-// ИНИЦИАЛИЗАЦИЯ
-// ===============================================
-let fortressCards = [];
-let mainMap = null;
-let currentFilter = null;
-let currentSort = null;
+                    <div class="status-box">
+                        <strong>Запазеност:</strong>
+                        <span>Частично възстановена</span>
+                    </div>
 
-document.addEventListener("DOMContentLoaded", () => {
-    fortressCards = Array.from(document.querySelectorAll(".fortress-card"));
-    
-    // Инициализация на главната карта
-    initMainMap();
-    
-    // Инициализация на индивидуални карти
-    initIndividualMaps();
-    
-    // Event listeners за филтри
-    document.querySelectorAll('.filter-card').forEach(card => {
-        card.addEventListener('click', () => {
-            filterByType(card.dataset.type);
-        });
-    });
-    
-    // Event listeners за сортиране
-    document.querySelectorAll('.sorting button').forEach(btn => {
-        btn.addEventListener('click', () => {
-            sortFortresses(btn.dataset.sort);
-        });
-    });
-});
+                    <div class="period-box">
+                        <p><strong>Епоха на построяване:</strong> Ранна железна епоха (XII-XI век пр.н.е.)</p>
+                        <p><strong>Основна употреба:</strong> Първо и Второ българско царство</p>
+                    </div>
 
-// ===============================================
-// ГЛАВНА КАРТА (всички крепости)
-// ===============================================
-function initMainMap() {
-    mainMap = L.map("mainMap").setView([42.7, 25.3], 7);
+                    <section class="description">
+                        Шуменската крепост е разположена на плато Шуменско плато, на 3 км от града. Една от най-значимите средновековни крепости в България. През Първото българско царство е била важен военен и административен център. Запазени са крепостни стени, кули и резервоари за вода. През 1985 г. е обявена за исторически паметник.                    </section>
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap"
-    }).addTo(mainMap);
+                    <section class="features">
+                        <h3>Забележителности</h3>
+                        <ul>
+                            <li>Крепостни стени дълги 2700 метра</li>
+                            <li>Водохранилища и резервоари</li>
+                            <li>Средновековна базилика</li>
+                            <li>Панорамна гледка към Шумен</li>
+                        </ul>
+                    </section>
 
-    // Добавяме маркери за всички крепости
-    fortressCards.forEach(card => {
-        const lat = parseFloat(card.dataset.lat);
-        const lon = parseFloat(card.dataset.lon);
-        const name = card.dataset.name;
+                    <section class="visitor-box">
+                        <p><strong>Такса:</strong> 5.00 лв (2.56 €)</p>
+                        <p><strong>Работно време:</strong> 09:00-18:00</p>
+                    </section>
 
-        if (lat && lon) {
-            L.marker([lat, lon])
-                .addTo(mainMap)
-                .bindPopup(`<strong>${name}</strong>`);
-        }
-    });
-}
+                    <section class="map-box">
+                        <p><strong>Координати:</strong> 43.2888, 26.9472</p>
+                        <div class="map-placeholder" data-lat="43.2888" data-lon="26.9472" data-name="Русокастро"></div>
+                    </section>
+                </article>
+        </div>
+    </section>
+  </main>
 
-// ===============================================
-// ИНДИВИДУАЛНИ КАРТИ (за всяка крепост)
-// ===============================================
-function initIndividualMaps() {
-    const mapPlaceholders = document.querySelectorAll(".map-placeholder");
-    
-    mapPlaceholders.forEach((placeholder, index) => {
-        const lat = parseFloat(placeholder.dataset.lat);
-        const lon = parseFloat(placeholder.dataset.lon);
-        const name = placeholder.dataset.name;
-
-        if (lat && lon) {
-            // Създаваме уникален ID за всяка карта
-            placeholder.id = `fortress-map-${index}`;
-            placeholder.style.height = "250px";
-            placeholder.innerHTML = "";
-
-            // Създаваме картата
-            const map = L.map(placeholder.id).setView([lat, lon], 13);
-
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution: "© OpenStreetMap"
-            }).addTo(map);
-
-            // Добавяме маркер
-            L.marker([lat, lon])
-                .addTo(map)
-                .bindPopup(`<strong>${name}</strong>`)
-                .openPopup();
-        }
-    });
-}
-
-// ===============================================
-// ФИЛТРИРАНЕ ПО ТИП (toggle логика)
-// ===============================================
-function filterByType(type) {
-    // Toggle логика: ако същият филтър е активен, изключи го
-    if (currentFilter === type) {
-        currentFilter = null;
-        // Показваме всички
-        fortressCards.forEach(card => {
-            card.style.display = "flex";
-        });
-        // Премахваме активния стил
-        document.querySelectorAll(".filter-card").forEach(card => {
-            card.classList.remove("active");
-        });
-    } else {
-        currentFilter = type;
-        // Филтрираме
-        fortressCards.forEach(card => {
-            if (card.dataset.type === type) {
-                card.style.display = "flex";
-            } else {
-                card.style.display = "none";
-            }
-        });
-        // Маркираме активния филтър
-        document.querySelectorAll(".filter-card").forEach(card => {
-            if (card.dataset.type === type) {
-                card.classList.add("active");
-            } else {
-                card.classList.remove("active");
-            }
-        });
-    }
-}
-
-// ===============================================
-// СОРТИРАНЕ
-// ===============================================
-function sortFortresses(criteria) {
-    const container = document.getElementById("fortressesGrid");
-    const cards = Array.from(container.children);
-
-    // Toggle логика: ако същото сортиране е активно, върни към оригинален ред
-    if (currentSort === criteria) {
-        currentSort = null;
-        // Сортираме по ID (оригинален ред от XML)
-        cards.sort((a, b) => {
-            const indexA = fortressCards.indexOf(a);
-            const indexB = fortressCards.indexOf(b);
-            return indexA - indexB;
-        });
-    } else {
-        currentSort = criteria;
-        
-        let compareFn;
-
-        switch (criteria) {
-            case "name":
-                compareFn = (a, b) =>
-                    a.dataset.name.localeCompare(b.dataset.name, "bg");
-                break;
-
-            case "type":
-                compareFn = (a, b) =>
-                    a.dataset.type.localeCompare(b.dataset.type, "bg");
-                break;
-
-            case "preservation":
-                compareFn = (a, b) =>
-                    a.dataset.preservation.localeCompare(b.dataset.preservation, "bg");
-                break;
-
-            case "fee":
-                compareFn = (a, b) =>
-                    parseFloat(a.dataset.fee) - parseFloat(b.dataset.fee);
-                break;
-
-            default:
-                return;
-        }
-
-        cards.sort(compareFn);
-    }
-
-    // Пренареждаме картите
-    cards.forEach(card => container.appendChild(card));
-}
-    </script>
+  <footer class="site-footer">
+    <p>© 2026 Курсов проект по XML технологии за семантичен Уеб</p>
+  </footer>
 </body>
 </html>
