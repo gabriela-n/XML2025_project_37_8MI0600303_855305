@@ -1,0 +1,271 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  line-height: 1.6;
+}
+
+.site-header {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  color: #fff;
+  padding: 2.5rem 1rem;
+  text-align: center;
+}
+
+.site-header h1 {
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.map-section {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.map-section h2 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+#mainMap {
+  border: 2px solid #ddd;
+  border-radius: 10px; 
+  overflow: hidden;
+}
+
+.controls {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.controls h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.filter-types {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-card {
+  background: #ecf0f1;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  user-select: none;
+}
+
+.filter-card:hover {
+  background: #95c8eb;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.filter-card.active {
+  background: #96cbff;
+  color: #000;
+  border-color: #2c3e50;
+}
+
+.sorting {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+.sorting button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background: #bce4ff;
+  color: #000;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  font-weight: 600;
+}
+
+.sorting button:hover {
+  background: #61bbf7;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(41, 128, 185, 0.3);
+}
+
+.fortresses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+.fortress-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fortress-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.fortress-image {
+  width: 100%;
+  height: 220px;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.fortress-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fortress-title {
+  padding: 1rem;
+  font-size: 1.4rem;
+  color: #2c3e50;
+}
+
+.fortress-card hr {
+  border: none;
+  height: 1px;
+  background: #ddd;
+  margin: 0 1rem;
+}
+
+.info-box,
+.status-box,
+.period-box,
+.visitor-box {
+  background: #f8f9fa;
+  margin: 0.8rem 1rem;
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.status-box span {
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.description {
+  padding: 1rem;
+  font-size: 0.95rem;
+  text-align: justify;
+  line-height: 1.7;
+}
+
+.features {
+  padding: 0 1rem 1rem;
+}
+
+.features h3 {
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.features ul {
+  list-style: disc inside;
+}
+
+.features li {
+  margin-bottom: 0.3rem;
+}
+
+.visitor-box {
+  font-size: 0.9rem;
+}
+
+.map-box {
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+  background: #fafafa;
+}
+
+.map-box p {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.map-placeholder {
+  margin-top: 0.5rem;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.site-footer {
+  background: #2c3e50;
+  color: #fff;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .filter-types {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .filter-types {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .map-section h2,
+  .controls h2 {
+    font-size: 1.4rem;
+  }
+}
